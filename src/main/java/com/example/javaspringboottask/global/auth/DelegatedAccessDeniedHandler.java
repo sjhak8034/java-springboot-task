@@ -35,6 +35,16 @@ public class DelegatedAccessDeniedHandler implements AccessDeniedHandler {
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+        response.setCharacterEncoding("UTF-8"); // 인코딩 설정 추가
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write("""
+            {
+              "status": 403,
+              "error": "Forbidden",
+              "message": "요청한 리소스에 접근할 권한이 없습니다."
+            }
+        """);
         resolver.resolveException(request,response,null,accessDeniedException);
     }
 

@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.javaspringboottask.global.constant.TokenPrefix.TOKEN_PREFIX;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -94,10 +96,10 @@ public class RefreshTokenService {
 
         // Redis에 저장된 리프레시 토큰 검증 과정
         // 1. 토큰에 담겨있는 user email 을 가져온다.
-        String email = jwtProvider.getUsername(refreshToken);
+        String username = jwtProvider.getUsername(refreshToken);
 
         // 2. 이메일을 통해 해당 유저 객체를 찾는다.
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new CustomResponseStatusException(ErrorCode.NOT_FOUND_USER));
 
         // 3. redisTemplate 의 get 을 사용해 RT:userId 가 키인 값의 value -> 즉 리프레시 토큰값을 가져온다.
@@ -130,9 +132,9 @@ public class RefreshTokenService {
 
         // 삭제 시도
         try {
-            String email = authentication.getName();
+            String username = authentication.getName();
 
-            User user = userRepository.findByEmail(email)
+            User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new CustomResponseStatusException(ErrorCode.NOT_FOUND_USER));
 
             // Redis 에서 삭제할 키 생성 (RT:{userId} 형식)

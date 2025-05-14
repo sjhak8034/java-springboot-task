@@ -22,6 +22,10 @@ public enum ErrorCode {
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "User를 찾을 수 없습니다"),
 
     /**
+     * user
+     */
+    DUPLICATE_USERNAME(HttpStatus.BAD_REQUEST, "중복된 username 입니다"),
+    /**
      * unAuthorized
      */
     NOT_ALLOW_USER(HttpStatus.UNAUTHORIZED, "USER 권한은 사용할 수 없는 기능입니다"),

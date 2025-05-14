@@ -1,5 +1,6 @@
 package com.example.javaspringboottask.global.config;
 
+import com.example.javaspringboottask.global.filter.JwtAuthFilter;
 import com.example.javaspringboottask.user.entity.type.Role;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -71,8 +72,10 @@ public class WebConfig {
                         .requestMatchers(securityProperties.getWhiteList().toArray(new String[0]))
                         .permitAll() // 화이트 리스트 경로 허용
                         .requestMatchers(HttpMethod.POST, "/refresh").permitAll() // JWT 토큰 갱신 허용
-                        .requestMatchers(HttpMethod.POST, "/users/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/logout").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // swagger 인증 허용
+
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE,
                                 DispatcherType.ERROR).permitAll() // 특정 요청 유형 허용
                         .requestMatchers(securityProperties.getAdminAuthList().toArray(new String[0]))

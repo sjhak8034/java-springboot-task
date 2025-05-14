@@ -101,12 +101,12 @@ public class JwtProvider {
     /**
      * authentication 인증 객체에서 받아온 이메일이 유효한지 검증 후 반환
      *
-     * @param email authentication 인증 객체에서 받아온 이메일
+     * @param username authentication 인증 객체에서 받아온 이메일
      * @return 정상적으로 반환될 시 user 객체 반환
      */
-    private User isValidUserEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("해당 email에 맞는 값이 존재하지 않습니다."));
+    private User isValidUserEmail(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("해당 username에 맞는 값이 존재하지 않습니다."));
     }
 
     /**

@@ -66,20 +66,14 @@ cloud:
 security: # SecurityProperties의 prefix와 일치
   white-list: # SecurityProperties의 whiteList 필드와 매핑
     - "/refresh"
-    - "/users/login"
-    - "/users/signup"
+    - "/login"
+    - "/signup"
+
   user-auth-list:
-    - "/users/sellers/**"
-    - "/products"
-    - "/products/**"
+
   admin-auth-list:
-    - "/users/admin/**"
-    - "/coupons"
-    - "/products/nutrients"
+    - "/admin/users/**"
   method-specific-patterns:
     GET:
-      - "/products/*"
-      - "/products"
-      - "/coupons/available"
-      - "/products/nutrients"
+
 

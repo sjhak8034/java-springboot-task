@@ -4,6 +4,7 @@ package com.example.javaspringboottask.refresh.controller;
 import com.example.javaspringboottask.global.exception.CustomResponseStatusException;
 import com.example.javaspringboottask.global.exception.ErrorCode;
 import com.example.javaspringboottask.refresh.service.RefreshTokenService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.javaspringboottask.global.constant.TokenPrefix.TOKEN_PREFIX;
 
-
+@Tag(
+        name = "refresh토큰 재발급 API",
+        description = "refresh토큰 재발급 관련 API"
+)
 @RestController
 @RequiredArgsConstructor
 public class RefreshTokenController {

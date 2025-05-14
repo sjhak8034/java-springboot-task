@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -98,7 +99,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             // 토큰이 유효하지 않으면 인증 처리하지 않음
             if (token == null || !jwtProvider.validToken(token)) {
-                return;
+                throw new BadCredentialsException("토큰이 유효하지 않음");
             }
 
             // 블랙리스트 토큰 검증 (예외 발생 시 catch 후 응답 처리)

@@ -1,35 +1,47 @@
 package com.example.javaspringboottask.user.entity;
 
 import com.example.javaspringboottask.global.entity.BaseTimeEntity;
+import com.example.javaspringboottask.global.valid.ValidPassword;
 import com.example.javaspringboottask.user.entity.type.Role;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    @Length(min = 5, max = 20)
+    private String username;
 
-    private String email;
-
+    @Column(nullable = false)
+    @ValidPassword
     private String password;
 
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
+    @Column(nullable = false)
+    @Length(min = 5, max = 20)
+    private String nickname;
 
-    public User(String name, String email, String password, Role role) {
-        this.name = name;
-        this.email = email;
+    @Enumerated(value = EnumType.STRING)
+    private Role role = Role.USER;
+
+    public User(String username, String nickname, String password) {
+        this.username = username;
+        this.nickname = nickname;
         this.password = password;
-        this.role = role;
     }
 
-    public User() {
 
+    public void grantAdmin(){
+        this.role = Role.ADMIN;
     }
 
 }
