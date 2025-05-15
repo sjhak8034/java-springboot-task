@@ -60,6 +60,7 @@ jobs:
             --build-arg DATABASE_PASSWORD="$DATABASE_PASSWORD" \
             -t "$DOCKER_HUB_REPOSITORY":main .
           docker push "$DOCKER_HUB_REPOSITORY":main
+      
 
       # 6. AWS 인증
       - name: Configure AWS credentials
@@ -77,34 +78,31 @@ jobs:
           username: ${{ secrets.AWS_SSH_USERNAME }}
           key: ${{ secrets.AWS_SSH_KEY }}
           port: 22
-          script: |
-            echo "$DOCKER_PASS" | sudo docker login -u "$DOCKER_USER" --password-stdin
-            sudo docker rm -f server2
-            sudo docker pull "${{ secrets.DOCKER_HUB_REPOSITORY }}:main"
-            sudo docker run2 -d \
-              --name server \
-              -e TZ=Asia/Seoul \
-              -e JPA_HIBERNATE_DDL=${{ secrets.JPA_HIBERNATE_DDL }} \
-              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
-              -e DATABASE_USERNAME=${{ secrets.DATABASE_ID }} \
-              -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
-              -e AWS_REGION=${{ secrets.AWS_REGION }} \
-              -e ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
-              -e SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-              -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
-              -p 8080:8080 "${{ secrets.DOCKER_HUB_REPOSITORY }}:main"
-        env:
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DATABASE_USERNAME: ${{ secrets.DATABASE_ID }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          JPA_HIBERNATE_DDL: ${{ secrets.JPA_HIBERNATE_DDL }}
+          AWS_REGION: ${{secrets.AWS_REGION}}
+          ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
+          SECRET_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+          script: |
+            echo "$DOCKER_PASS" | sudo docker login -u "$DOCKER_USER" --password-stdin
+            sudo docker rm -f server 
+            sudo docker pull "${{secrets.DOCKER_HUB_REPOSITORY}}:main"
+            sudo docker run -d \
+                --name server \
+                -e TZ=Asia/Seoul \
+                -e JPA_HIBERNATE_DDL=${{secrets.JPA_HIBERNATE_DDL}} \
+                -e DATABASE_URL=${{secrets.DATABASE_URL}} \
+                -e DATABASE_USERNAME=${{secrets.DATABASE_ID}} \
+                -e DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} \
+                -e AWS_REGION=${{secrets.AWS_REGION}} \
+                -e ACCESS_KEY=${{secrets.AWS_ACCESS_KEY}} \
+                -e SECRET_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}} \
+                -e JWT_SECRET_KEY=${{secrets.JWT_SECRET_KEY}} \
+                -e REDIS_HOST=${{secrets.REDIS_HOST}} \
+                -p 8080:8080 "${{secrets.DOCKER_HUB_REPOSITORY}}:main"
         
           
