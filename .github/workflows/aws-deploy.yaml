@@ -79,9 +79,9 @@ jobs:
           port: 22
           script: |
             echo "$DOCKER_PASS" | sudo docker login -u "$DOCKER_USER" --password-stdin
-            sudo docker rm -f server 
+            sudo docker rm -f server2
             sudo docker pull "${{ secrets.DOCKER_HUB_REPOSITORY }}:main"
-            sudo docker run -d \
+            sudo docker run2 -d \
               --name server \
               -e TZ=Asia/Seoul \
               -e JPA_HIBERNATE_DDL=${{ secrets.JPA_HIBERNATE_DDL }} \
