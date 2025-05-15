@@ -56,6 +56,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // 요청 URI와 HTTP Method 가져오기
             String requestUri = request.getRequestURI();
             String method = request.getMethod();
+            String uri = request.getRequestURI();
+            if (uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs") || uri.startsWith("/swagger-resources")) {
+                filterChain.doFilter(request, response); // 필터 건너뛰기
+                return;
+            }
 
             // 1. 화이트리스트 확인: 해당 요청 URI가 화이트리스트에 포함되어 있으면 필터를 통과시킴
             if (securityProperties.getWhiteList().stream()

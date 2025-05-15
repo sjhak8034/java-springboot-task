@@ -30,23 +30,17 @@ public class SwaggerConfig {
 
 
     @Bean
-    public OpenAPI springShopOpenAPI() {
-
-        Components components = new Components()
-                .addSecuritySchemes(HttpHeaders.AUTHORIZATION, new SecurityScheme()
-                        .name(HttpHeaders.AUTHORIZATION)
-                        .type(SecurityScheme.Type.APIKEY)
-                        .in(SecurityScheme.In.HEADER)
-                        .bearerFormat("JWT"));
-
-
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Eleven Dash")
-                        .description("Eleven Dash REST API")
-                        .version("v1"))
-                .addSecurityItem(new SecurityRequirement()
-                        .addList(HttpHeaders.AUTHORIZATION))
-                .components(components);
+                        .title("springboottask")
+                        .version("v1")
+                        .description("API for Spring Boot"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
     }
 }

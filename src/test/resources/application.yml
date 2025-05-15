@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: java-springboot-task
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL}
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        enable_lazy_load_no_trans: true
+        globally_quoted_identifiers: true
+        ## batch 전략
+        jdbc:
+          batch_size: 30
+          order_inserts: true
+          order_updates: true
+          generate_statistics: true
+  config:
+    import: optional:file:.env[.properties]
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 8  # 최대 연결 수
+          max-idle: 8    # 유휴 연결 수
+          min-idle: 0    # 최소 유휴 연결 수
+
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+  expiry-millis: 600000 # 10분
+  refresh-expiry-millis: 604800000 #7일
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    s3:
+      bucket: ${BUCKET_NAME} # BUCKET_NAME 없으면 default-bucket-name 사용
+    region:
+      static: ${AWS_REGION:us-east-1} # AWS_REGION 없으면 ap-northeast-2 사용
+    credentials:
+      access-key: ${ACCESS_KEY} # ACCESS_KEY 없으면 default-access-key 사용
+      secret-key: ${SECRET_KEY} # SECRET_KEY 없으면 default-secret-key 사용
+
+security: # SecurityProperties의 prefix와 일치
+  white-list: # SecurityProperties의 whiteList 필드와 매핑
+    - "/refresh"
+    - "/login"
+    - "/signup"
+
+  user-auth-list:
+
+  admin-auth-list:
+    - "/admin/users/**"
+  method-specific-patterns:
+    GET:
+
+

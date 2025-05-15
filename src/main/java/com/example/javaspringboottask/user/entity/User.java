@@ -44,4 +44,12 @@ public class User extends BaseTimeEntity {
         this.role = Role.ADMIN;
     }
 
+    // 테스트용 생성자 입니다
+    public User(String username, String nickname, String password, Role role) {
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.role = role;
+    }
+
 }
