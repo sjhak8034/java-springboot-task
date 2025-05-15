@@ -60,7 +60,6 @@ jobs:
             --build-arg DATABASE_PASSWORD="$DATABASE_PASSWORD" \
             -t "$DOCKER_HUB_REPOSITORY":main .
           docker push "$DOCKER_HUB_REPOSITORY":main
-      
 
       # 6. AWS 인증
       - name: Configure AWS credentials
